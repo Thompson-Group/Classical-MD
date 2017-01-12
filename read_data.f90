@@ -11,8 +11,7 @@ subroutine read_data(data_filename, n_atoms, n_bonds, n_angles, n_dih, n_a_type,
     real(kind=dp), allocatable,dimension(:,:) :: bond_table, angle_table, dih_table
     logical :: restart
     restart = .FALSE.
-    !open(unit=30, file=data_filename)
-    open(unit=30, file="test.in")
+    open(unit=30, file=data_filename)
     read(30,*)
     read(30,*)
     read(30,*) n_atoms, ignore
