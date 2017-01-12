@@ -1,14 +1,14 @@
 subroutine read_data(data_filename, n_atoms, n_bonds, n_angles, n_dih, n_a_type, n_b_type, n_dih_type, &
         n_imp_type, n_imp, bond_table, angle_table, dih_table,restart, vx, vy ,vz, Lx, Ly, Lz,&
-        a_id, mol_id, a_type, q, x, y, z, M) 
+        a_id, mol_id, a_type, qq, ee, ss, x, y, z, M) 
     use kinds
     implicit none
     character(len=50) :: ignore, data_filename
     integer(kind=ip) :: n_atoms, n_bonds, n_angles, n_dih, n_imp, n_a_type, n_b_type, n_ang_type, n_dih_type, n_imp_type
-    integer(kind=ip) :: i
+    integer(kind=ip) :: i, j
     real(kind=dp) :: xlo, xhi, ylo, yhi, zlo, zhi, Lx, Ly, Lz
     real(kind=dp), allocatable,dimension(:):: a_id, mol_id, a_type,M, q, x, y, z, vx, vy, vz, ep, sig
-    real(kind=dp), allocatable,dimension(:,:) :: bond_table, angle_table, dih_table
+    real(kind=dp), allocatable,dimension(:,:) :: bond_table, angle_table, dih_table, qq, ee, ss
     logical :: restart
     restart = .FALSE.
     open(unit=30, file=data_filename)
@@ -32,7 +32,9 @@ subroutine read_data(data_filename, n_atoms, n_bonds, n_angles, n_dih, n_a_type,
     allocate(bond_table(n_bonds,3))
     allocate(angle_table(n_angles,4))
     allocate(dih_table(n_dih, 5))
-    
+    allocate(qq(n_atoms))
+    allocate(ee(n_atoms))
+    allocate(ss(n_atoms))
     read(30,*)
     read(30,*) n_a_type, ignore, ignore
     allocate(M(n_a_type))
@@ -108,5 +110,19 @@ subroutine read_data(data_filename, n_atoms, n_bonds, n_angles, n_dih, n_a_type,
         END DO
 
     END IF
+
+    DO i=1,n_atoms
+        DO j=1,n_atoms
+            IF (mol_id(i).ne.mol_id(j)) THEN
+                qq(i,j)=q(i)*q(j)
+                ee(i,j)=sqrt(ep(i)*ep(j))
+                ss(i,j)=(sig(i)+sig(j))*0.5
+            ELSE            
+                qq(i,j)=0
+                ee(i,j)=0
+                ss(i,j)=0
+            END IF
+        END DO
+    END DO
     close(unit=30)
 end subroutine
