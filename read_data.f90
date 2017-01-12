@@ -1,13 +1,13 @@
 subroutine read_data(data_filename, n_atoms, n_bonds, n_angles, n_dih, n_a_type, n_b_type, n_dih_type, &
-        n_imp_type, n_imp, bond_table, angle_table, dih_table,restart, vx, vy ,vz, xlo, xhi,&
-        ylo, yhi, zlo, zhi, a_id, mol_id, a_type, q, x, y, z) 
+        n_imp_type, n_imp, bond_table, angle_table, dih_table,restart, vx, vy ,vz, Lx, Ly, Lz,&
+        a_id, mol_id, a_type, q, x, y, z, M) 
     use kinds
     implicit none
     character(len=50) :: ignore, data_filename
     integer(kind=ip) :: n_atoms, n_bonds, n_angles, n_dih, n_imp, n_a_type, n_b_type, n_ang_type, n_dih_type, n_imp_type
     integer(kind=ip) :: i
-    real(kind=dp) :: xlo, xhi, ylo, yhi, zlo, zhi
-    real(kind=dp), allocatable,dimension(:):: a_id, mol_id, a_type, q, x, y, z, vx, vy, vz
+    real(kind=dp) :: xlo, xhi, ylo, yhi, zlo, zhi, Lx, Ly, Lz
+    real(kind=dp), allocatable,dimension(:):: a_id, mol_id, a_type,M, q, x, y, z, vx, vy, vz, ep, sig
     real(kind=dp), allocatable,dimension(:,:) :: bond_table, angle_table, dih_table
     logical :: restart
     restart = .FALSE.
@@ -35,6 +35,9 @@ subroutine read_data(data_filename, n_atoms, n_bonds, n_angles, n_dih, n_a_type,
     
     read(30,*)
     read(30,*) n_a_type, ignore, ignore
+    allocate(M(n_a_type))
+    allocate(ep(n_a_type))
+    allocate(sig(n_a_type))
     IF (n_bonds.ne.0) THEN
         read(30,*) n_b_type, ignore, ignore
     END IF
@@ -51,6 +54,20 @@ subroutine read_data(data_filename, n_atoms, n_bonds, n_angles, n_dih, n_a_type,
     read(30,*) xlo, xhi, ignore, ignore
     read(30,*) ylo, yhi, ignore, ignore
     read(30,*) zlo, zhi, ignore, ignore
+    read(30,*)
+    !Reads in the Masses
+    read(30,*)
+    read(30,*)
+    DO i = 1, n_a_type
+        read(30,*) ignore, M(i)
+    END DO
+    read(30,*)
+    !Reads in the Pair Coeffs
+    read(30,*)
+    read(30,*)
+    DO i = 1, n_a_type
+        read(30,*) ignore, ep(i), sig(i)
+    END DO
     read(30,*)
     !Reads in the Atoms Section
     read(30,*)
