@@ -1,7 +1,9 @@
 ! Subroutine to calculate the electrostatic interactions between atoms on different molecules
-!   within a given cuttoff radius.  This is the direct Coulomb's law
+!   within a given cuttoff radius.  This is the *SHIFTED FORCE* Coulomb's law
 !
-!         V_ij(r_ij) = C*q(i)*q(j)/r_ij
+!         V_c(r_ij) = C*q(i)*q(j)/r_ij
+!
+!         V_ij(r_ij) = V_c(r_ij) - V_c(rcut) - (dV/dr)|_rcut * (r_ij - rcut)
 !
 ! This routine assumes an array of the charge products qq(i,j) = q(i)*q(j) has been calculated
 !
@@ -10,7 +12,7 @@
 ! Jan. 12, 2017 - Paul Burris & Ward Thompson
 !
 
-  Subroutine coulomb(natoms,rx,ry,rz,rcut,qq, fx_c,fy_c,fz_c,v_c)
+  Subroutine coulomb_sf(natoms,rx,ry,rz,rcut,qq, fx_c,fy_c,fz_c,v_c)
 
   use kinds
   implicit none
@@ -37,17 +39,17 @@
 
         if (rij.le.rcut) then
            
-           v_c = v_c + C_coul*qq(i,j)/rij                   ! Calculate the contribution to the potential
+           v_c = v_c + C_coul*qq(i,j)*(1.0_dp/rij - 1.0_dp/rcut + (rij - rcut)/rcut**2)  ! Calculate the contribution to the potential
 
-           fxtmp = C_coul*qq(i,j)*rx(i,j)/rij**3
-           fytmp = C_coul*qq(i,j)*ry(i,j)/rij**3
-           fztmp = C_coul*qq(i,j)*rz(i,j)/rij**3
+           fxtmp = C_coul*qq(i,j)*rx(i,j)*(1.0_dp/rij**2 - 1.0_dp/rcut**2)/rij
+           fytmp = C_coul*qq(i,j)*ry(i,j)*(1.0_dp/rij**2 - 1.0_dp/rcut**2)/rij
+           fztmp = C_coul*qq(i,j)*rz(i,j)*(1.0_dp/rij**2 - 1.0_dp/rcut**2)/rij
 
-           fx_c(i) = fx_c(i) + fxtmp
+           fx_c(i) = fx_c(i) + fxtmp 
            fy_c(i) = fy_c(i) + fytmp
            fz_c(i) = fz_c(i) + fztmp
 
-           fx_c(j) = fx_c(j) - fxtmp
+           fx_c(j) = fx_c(j) - fxtmp 
            fy_c(j) = fy_c(j) - fytmp
            fz_c(j) = fz_c(j) - fztmp
 
@@ -56,4 +58,5 @@
      enddo
   enddo
 
- End Subroutine coulomb  
+ End Subroutine coulomb_sf
+
