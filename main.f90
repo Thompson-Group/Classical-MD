@@ -14,9 +14,10 @@ program classical_md
 
        implicit none
 
-       integer(kind = ip) :: df_xyz,df_thermo,df_rest,nstep
+       integer(kind = ip) :: df_xyz,df_thermo,df_rest,nstep,fc_flag,nstep
+       integer(kind = ip) :: i,d
 
-       character(len=50) :: data_filename
+       character(len=50) :: data_filename,nvt_type
 
        logical :: restart,change
 
@@ -61,7 +62,7 @@ program classical_md
 
 ! calculate thermodynamic properties
 
-            if (mod(i,dsf_thermo) .eq. 0) call thermo_stuff()
+            if (mod(i,df_thermo) .eq. 0) call thermo_stuff()
 
 ! apply thermostat
 
@@ -73,7 +74,7 @@ program classical_md
 
 ! write traj
 
-            if (mod(i,dsf_xyz) .eq. 0) call thermo_dump(i)
+            if (mod(i,df_xyz) .eq. 0) call thermo_dump(i)
 
        enddo
 
