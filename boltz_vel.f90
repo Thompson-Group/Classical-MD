@@ -1,4 +1,4 @@
-subroutine boltz_vel()
+subroutine boltz_vel(vxb,vyb,vzb)
 !************************************************************************
 !
 ! Subroutine for picking new atomic velocity from Boltzmann distribution
@@ -6,13 +6,14 @@ subroutine boltz_vel()
 !************************************************************************
 
        use common_variables
+       use constants
 
        implicit none
 
        integer(kind = ip) :: dt(8),i
        integer :: n
        integer,allocatable,dimension(:) :: seed
-       real(kind = dp) :: kb,RT,mtot,sx,sy,sz,num1,num2,r1,r2,temp
+       real(kind = dp) :: RT,mtot,sx,sy,sz,num1,num2,r1,r2,temp
        real(kind = dp) :: rsq,fac,gset,gauss,vxb,vyb,vzb
 
        call random_seed(size = n)

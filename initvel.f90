@@ -1,13 +1,14 @@
-subroutine initvel(temp)
+subroutine initvel
 
        use common_variables
+       use constants
 
        implicit none
 
        integer(kind = ip) :: dt(8),i
        integer :: n
        integer,allocatable,dimension(:) :: seed
-       real(kind = dp) :: kb,RT,mtot,sx,sy,sz,num1,num2,r1,r2,temp
+       real(kind = dp) :: RT,mtot,sx,sy,sz,num1,num2,r1,r2
        real(kind = dp) :: rsq,fac,gset,gauss,vcm_x,vcm_y,vcm_z
 
        call random_seed(size = n)

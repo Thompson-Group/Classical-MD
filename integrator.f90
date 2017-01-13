@@ -1,4 +1,4 @@
-subroutine integrator(Stage,mass,dt, xo,yo,zo,vxo,vyo,vzo,fxo,fyo,fzo)
+subroutine integrator(Stage)
 !************************************************************************
 !
 ! Subroutine for updating positions and velocities using the velocity
@@ -11,8 +11,6 @@ subroutine integrator(Stage,mass,dt, xo,yo,zo,vxo,vyo,vzo,fxo,fyo,fzo)
       implicit none
   
       integer (kind = ip) :: Stage,i,j
-      real (kind = dp) :: dt
-      real (kind = dp),dimension(n_atoms) :: mass,xo,yo,zo,vxo,vyo,vzo,fxo,fyo,fzo
     
 ! first stage of VV updates positions
    
@@ -22,9 +20,9 @@ subroutine integrator(Stage,mass,dt, xo,yo,zo,vxo,vyo,vzo,fxo,fyo,fzo)
      
 ! updates positions to t + dt
 
-               x(i) = xo(i) + vxo(i)* dt +(Fxo(i)*dt**2)/2*mass(i)
-               y(i) = yo(i) + vyo(i)* dt +(Fyo(i)*dt**2)/2*mass(i)
-               z(i) = zo(i) + vzo(i)* dt +(Fzo(i)*dt**2)/2*mass(i)
+               x(i) = x_o(i) + vx_o(i)* dt +(fx_o(i)*dt**2)/2*M(i)
+               y(i) = y_o(i) + vy_o(i)* dt +(fy_o(i)*dt**2)/2*M(i)
+               z(i) = z_o(i) + vz_o(i)* dt +(fz_o(i)*dt**2)/2*M(i)
  
 ! wrap positions into box
 
@@ -34,9 +32,9 @@ subroutine integrator(Stage,mass,dt, xo,yo,zo,vxo,vyo,vzo,fxo,fyo,fzo)
               
 ! save new positions to old positions
 
-               xo(i) = x(i)
-               yo(i) = y(i)
-               zo(i) = z(i)
+               x_o(i) = x(i)
+               y_o(i) = y(i)
+               z_o(i) = z(i)
           
            enddo
 
@@ -48,21 +46,21 @@ subroutine integrator(Stage,mass,dt, xo,yo,zo,vxo,vyo,vzo,fxo,fyo,fzo)
 
 ! calculate t + dt velocities
                
-               vx(j) = vxo(j) + ((fx_tot(j) +Fxo(j))/2)*dt*mass(j)
-               vy(j) = vyo(j) + ((fy_tot(j) +Fyo(j))/2)*dt*mass(j)
-               vz(j) = vzo(j) + ((fz_tot(j) +Fzo(j))/2)*dt*mass(j)
+               vx(j) = vx_o(j) + ((fx_tot(j) +fx_o(j))/2)*dt*M(j)
+               vy(j) = vy_o(j) + ((fy_tot(j) +fy_o(j))/2)*dt*M(j)
+               vz(j) = vz_o(j) + ((fz_tot(j) +fz_o(j))/2)*dt*M(j)
 
 ! save new velocities to old velocities
 
-               vxo(j) = vx(j)
-               vyo(j) = vy(j)
-               vzo(j) = vz(j)
+               vx_o(j) = vx(j)
+               vy_o(j) = vy(j)
+               vz_o(j) = vz(j)
 
 ! save old forces to new forces
            
-               fxo(j) = fx_tot(j)
-               fyo(j) = fy_tot(j)
-               fzo(j) = fz_tot(j)
+               fx_o(j) = fx_tot(j)
+               fy_o(j) = fy_tot(j)
+               fz_o(j) = fz_tot(j)
             
             enddo
      
