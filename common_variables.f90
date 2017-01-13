@@ -37,7 +37,7 @@ Module constants
   use kinds
   Implicit none
 
-  integer, parameter :: nxyz=20, nthermo=21, ndata=30, ninput=31
+  integer, parameter :: nxyz=20, nthermo=21, ndata=30, ninput=31, nrest=22
   real(kind=dp), parameter :: kb=0.9919872036_dp 
   real(kind=dp), parameter :: mass_conv=2.390057361e-5_dp 
 
