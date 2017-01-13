@@ -1,6 +1,7 @@
 subroutine dump(i)
 
 use common_variables
+use constants
 implicit none
 
 integer(kind=ip),intent(in) :: i
