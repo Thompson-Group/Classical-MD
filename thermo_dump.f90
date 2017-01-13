@@ -16,7 +16,7 @@
     if(trim(oflag).eq.'start') then
        open(nxyz,file='traj.xyz')
        open(nthermo,file='eners.dat')
-    elseif(trim(oflag.eq.'end') then
+    elseif(trim(oflag).eq.'end') then
        close(nxyz)
        close(nthermo)
     endif
@@ -25,7 +25,7 @@
 
 
 !  Subroutine to dump the thermodynamic properties 
-!    input argument is the time
+!    input argument is the timestep, converted to time here!
 !
 
   Subroutine thermo_dump(istep)
@@ -39,7 +39,7 @@
 
 !Working variables
     integer :: i
-    real(kind=dp) :: ke, v_tpot, etot, temp_inst
+    real(kind=dp) :: ke, e_tot, temp_inst
 
 !  Calculate the time
 
