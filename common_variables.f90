@@ -20,7 +20,7 @@ Module common_variables
   real(kind=dp), allocatable, dimension(:) :: M, q, vx, vy, vz, ep, sig
   real(kind=dp), allocatable, dimension(:) :: x, y, z, fx_b, fy_b, fz_b, fx_a, fy_a, fz_a, k_r, req, k_ang, theta_eq
   real(kind=dp), allocatable, dimension(:) :: x_o, y_o, z_o, vx_o, vy_o, vz_o, fx_o, fy_o, fz_o
-  character(len-50) :: bond_style
+  character(len=50) :: bond_style
 end module
 
 
