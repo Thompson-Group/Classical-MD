@@ -1,0 +1,34 @@
+read_data
+lammps_input.dat
+
+bond_coeffs
+1 25000 1.1
+
+angle_coeffs
+1 50000 120
+
+cutoff_distance
+12.0
+
+coulomb_style
+0.2 2
+
+force_check
+0 0.1
+
+run_style
+nvt
+andersen
+
+timestep
+1
+
+run
+50000
+
+dump_freq
+100 100 100
+
+temperature
+373.15
+
