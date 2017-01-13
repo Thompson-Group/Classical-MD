@@ -1,4 +1,4 @@
-subroutine termostat(nvt_type)
+subroutine thermostat(nvt_type)
 
      use common_variables
      use constants
@@ -59,7 +59,7 @@ subroutine termostat(nvt_type)
            enddo
      endif
 
-end subroutine
+end subroutine thermostat
 
        
 
