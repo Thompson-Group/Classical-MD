@@ -1,9 +1,9 @@
-subroutine read_input(data_filename,df_xyz,df_thermo,df_rest)
+subroutine read_input(data_filename,df_xyz,df_thermo,df_rest, nvt_type,fc_flag,nstep, bond_style)
     use kinds
     use common_variables
-    integer(kind=ip) :: i, j, ign_int,df_xyz, df_thermo, df_rest
-    character(len=50) :: data_filename,word,input_filename, run_style, nvt_type
-    logical :: restart
+    integer(kind=ip) :: i, j, ign_int,df_xyz, df_thermo, df_rest,nstep
+    character(len=50) :: data_filename,word,input_filename, run_style, nvt_type, coul_tmp, bond_style
+    logical :: restart,fc_flag
     open(unit=ninput, file=input_filename)
      
 
@@ -23,8 +23,9 @@ subroutine read_input(data_filename,df_xyz,df_thermo,df_rest)
         read(ninput,*)
     do
         read(ninput,*) word
-
-        if (word .eq. 'bond_coeffs') then
+        if (word .eq. 'bond_style') then
+            read(ninput,*) bond_style
+        else if (word .eq. 'bond_coeffs') then
             do i = 1, n_b_type
             ! Provide the bond coeffs in bond type order            
                 read(ninput,*)  ign_int , k_r(i), req(i)
@@ -39,7 +40,16 @@ subroutine read_input(data_filename,df_xyz,df_thermo,df_rest)
             read(ninput,*) r_cut
         !coul_flag = 0: off, =1: shifted force, =2: damped shifted force
         else if (word .eq. 'coulomb_style') then 
-            read(ninput,*) alpha, coul_flag 
+            read(ninput,*) alpha, coul_tmp
+            if (coul_tmp .eq. 'none') then
+                coul_flag = 0
+            else if (coul_tmp .eq. 'sf') then
+                coul_flag = 1
+            else if (coul_tmp .eq. 'dsf') then
+                coul_flag = 2
+            else
+                write(*,*) "Error: Invalid electrostatics style"
+            end if
         else if (word .eq. 'force_check') then
             read(ninput,*) fc_flag,del
         else if (word .eq. 'run_style') then 
