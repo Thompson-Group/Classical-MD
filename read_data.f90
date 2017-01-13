@@ -1,6 +1,7 @@
 subroutine read_data(data_filename,restart) 
     use kinds
     use common_variables
+    use constants
     implicit none
     character(len=50) :: ignore, data_filename
     integer(kind=ip) :: i,j
