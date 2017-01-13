@@ -1,36 +1,53 @@
-subroutine calc_vdw(natoms,rx,ry,rz,x,y,z,ee,ss,r_cut,Fx_v,Fy_v,Fz_v,E_v)
+subroutine calc_vdw()
+!************************************************************************
+! 
+! Subroutine for calculating LJ energy and force.
+!
+!************************************************************************
 
-     use kinds
+     use common_variables
  
      implicit none
 
-     integer(kind = ip) :: natoms,i,j
-     real(kind = dp),dimension(natoms,natoms) :: rx,ry,rz,ee,ss
-     real(kind = dp) :: E_v,r_cut,dist
-     real (kind = dp),dimension(natoms) :: x,y,z,Fx_v,Fy_v,Fz_v
-    
-     Fx_v = 0.0_dp
-     Fy_v = 0.0_dp
-     Fz_v = 0.0_dp
-     E_v = 0.0_dp
-     
-     do i = 1, natoms-1
+     integer(kind = ip) :: i,j
+     real(kind = dp) :: dist
 
-         do j = i+1, natoms 
+! initialize
+    
+     fx_v = 0.0_dp
+     fy_v = 0.0_dp
+     fz_v = 0.0_dp
+     v_v = 0.0_dp
+
+! loop over all atoms
+     
+     do i = 1, n_atoms-1
+
+! loop over all later atoms
+
+         do j = i+1, n_atoms 
+
+! distance
              
             dist=sqrt(rx(i,j)**2+ry(i,j)**2+rz(i,j)**2)
      
             if (dist .lt. r_cut) then
+
+! energy
           
-               E_v = E_v + 4.0_dp*ee(i,j)*((ss(i,j)/dist**12)-(ss(i,j)/dist**6))
+               v_v = v_v + 4.0_dp*ee(i,j)*((ss(i,j)/dist**12)-(ss(i,j)/dist**6))
 
-               Fx_v(i) = Fx_v(i) + ((-48*x(i)/dist**2)*(0.5*(ss(i,j)/dist**6)-(ss(i,j)/dist**12)))
-               Fy_v(i) = Fy_v(i) + ((-48*y(i)/dist**2)*(0.5*(ss(i,j)/dist**6)-(ss(i,j)/dist**12)))
-               Fz_v(i) = Fz_v(i) + ((-48*z(i)/dist**2)*(0.5*(ss(i,j)/dist**6)-(ss(i,j)/dist**12)))
+! force (-du/dx)
 
-               Fx_v(j) = Fx_v(j) - Fx_v(i)
-               Fy_v(j) = Fy_v(j) - Fy_v(i)
-               Fz_v(j) = Fz_v(j) - Fz_v(i)
+               fx_v(i) = fx_v(i) + ((-48*x(i)/dist**2)*(0.5*(ss(i,j)/dist**6)-(ss(i,j)/dist**12)))
+               fy_v(i) = fy_v(i) + ((-48*y(i)/dist**2)*(0.5*(ss(i,j)/dist**6)-(ss(i,j)/dist**12)))
+               fz_v(i) = fz_v(i) + ((-48*z(i)/dist**2)*(0.5*(ss(i,j)/dist**6)-(ss(i,j)/dist**12)))
+
+! equal and opposite force
+
+               fx_v(j) = fx_v(j) - fx_v(i)
+               fy_v(j) = fy_v(j) - fy_v(i)
+               fz_v(j) = fz_v(j) - fz_v(i)
 
             endif
          
