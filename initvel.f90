@@ -5,7 +5,7 @@ subroutine initvel
 
        implicit none
 
-       integer(kind = ip) :: dt(8),i
+       integer(kind = ip) :: clock(8),i
        integer :: n
        integer,allocatable,dimension(:) :: seed
        real(kind = dp) :: RT,mtot,sx,sy,sz,num1,num2,r1,r2
@@ -13,8 +13,8 @@ subroutine initvel
 
        call random_seed(size = n)
        allocate(seed(n))
-       call date_and_time(values=dt)
-       seed(1:) = dt(6) * (/ (i, i = 1 , n) /)
+       call date_and_time(values=clock)
+       seed(1:) = clock(6) * (/ (i, i = 1 , n) /)
        call random_seed(put=seed)
 
        RT = kb * temp
