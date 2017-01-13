@@ -1,4 +1,4 @@
-subroutine termostat(nvt_type,temp_inst)
+subroutine termostat(nvt_type)
 
      use common_variables
      use constants
