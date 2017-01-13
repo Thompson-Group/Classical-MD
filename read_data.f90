@@ -95,6 +95,7 @@ subroutine read_data(data_filename,restart)
     read(30,*)
     DO i = 1, n_a_type
         read(30,*) ignore, M(i)
+        M(i) = M(i)/(4.184*10**4)
     END DO
     read(30,*)
     !Reads in the Pair Coeffs
