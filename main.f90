@@ -17,7 +17,7 @@ program classical_md
        integer(kind = ip) :: df_xyz,df_thermo,df_rest,nstep,fc_flag
        integer(kind = ip) :: i,d
 
-       character(len=50) :: data_filename,nvt_type
+       character(len=50) :: input_filename,nvt_type
 
        logical :: restart,change
 
@@ -25,7 +25,8 @@ program classical_md
 ! Note: this subroutine also calls read_data.f90 to read in initial
 ! configurations
 
-       call read_input(data_filename,df_xyz,df_thermo,df_rest,nvt_type,fc_flag,&
+       read(*,*) input_filename
+       call read_input(input_filename,df_xyz,df_thermo,df_rest,nvt_type,fc_flag,&
                        nstep)
 
 ! set initial velocites if not a restart
