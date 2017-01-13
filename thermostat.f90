@@ -1,24 +1,32 @@
-subroutine termostat(nvt_type,KE,temp_inst)
+subroutine termostat(nvt_type,temp_inst)
 
      use common_variables
      use constants
      implicit none
 
-     integer (kind = ip) :: i,j,type,dt
+     integer (kind = ip) :: i,j,step(8)
      integer :: n
-     real (kind = dp) :: temp,temp_inst,lamda,KE,vxb,vyb,vzb,numx,nu
+     real (kind = dp) :: temp_inst,KE,vxb,vyb,vzb,numx,lamda,nu
      integer,dimension(:),allocatable :: seed
      character :: nvt_type
  
      call random_seed(size=n)
      allocate(seed(n))
-     call date_and_time(values=dt)
-     seed(1:) = dt*(/(j,j = 1,n)/)
+     call date_and_time(values=step)
+     seed(1:) = step*(/(j,j = 1,n)/)
      call random_seed(put=seed)
+
+     
  
      if(nvt_type .eq. "rescale") then 
+          do i = 1, n_atoms
 
-          temp_inst = 2*KE/((3*n_atoms-6)*kb)
+            ke = ke + 0.5_dp*M(i)*(vx(i)**2 + vy(i)**2 + vz(i)**2)
+          
+          enddo
+           
+          temp_inst = 2*ke/((3*n_atoms-6)*kb)
+         
           do i = 1,n_atoms
 
          
