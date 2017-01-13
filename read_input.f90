@@ -20,6 +20,7 @@ subroutine read_input(data_filename,df_xyz,df_thermo,df_rest)
 
     call read_data(data_filename,restart)
 
+        read(ninput,*)
     do
         read(ninput,*) word
 
@@ -53,23 +54,22 @@ subroutine read_input(data_filename,df_xyz,df_thermo,df_rest)
                 write(*,*) "Error: Couldn't find the run_style in input file"
             endif 
         else if (word .eq. 'timestep') then
-           read(ninput,*) dt
+            read(ninput,*) dt
 
             
-       else if (word .eq. 'run') then 
+        else if (word .eq. 'run') then 
             read(ninput,*) nstep
 
-       else if (word .eq. 'dump_freq') then 
+        else if (word .eq. 'dump_freq') then 
             read(ninput,*) df_xyz, df_thermo, df_rest
 
     
-       else if (word .eq. 'temperature') then 
+        else if (word .eq. 'temperature') then 
             read(ninput,*) temp
-
-
-       else
-          exit
-       end if 
+        else
+            exit
+        end if
+        read(ninput,*)  
     end do
 
        
