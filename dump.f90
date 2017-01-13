@@ -10,7 +10,7 @@ integer(kind=ip) :: j
 	write(nxyz,*) n_atoms
 	write(nxyz,*) 'Atoms. Timestep: ', i
 	do j=1,n_atoms
-		write(nxyz,*) a_type(j), x(j), y(j), z(i)
+		write(nxyz,'(I0.5,3F12,5)') a_type(j), x(j), y(j), z(i)
 	end do
 
 end subroutine dump
