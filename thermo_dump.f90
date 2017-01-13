@@ -28,16 +28,22 @@
 !    input argument is the time
 !
 
-  Subroutine thermo_dump(time)
+  Subroutine thermo_dump(istep)
 
     use common_variables
     use constants
     implicit none
 
+    integer(kind=ip) :: istep
+    real(kind=dp) :: time
+
 !Working variables
     integer :: i
     real(kind=dp) :: ke, v_tpot, etot, temp_inst
 
+!  Calculate the time
+
+    time = real(istep)*dt
 
 !  Calculate the kinetic energy
 
@@ -45,7 +51,7 @@
     do i = 1, n_atoms
        ke = ke + 0.5_dp*M(i)*( vx(i)*vx(i) + vy(i)*vy(i) + vz(i)*vz(i) )
     enddo
-    temp_inst = ke*(3.0_dp*real(n_atoms) - 6.0_dp)/(2.0_dp*kb)
+    temp_inst = ke*2.0_dp/( (3.0_dp*real(n_atoms) - 6.0_dp)*kb )
 
 !  Calculate the potential energy
 

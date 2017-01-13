@@ -5,14 +5,14 @@ subroutine read_data(data_filename,restart)
     character(len=50) :: ignore, data_filename
     integer(kind=ip) :: i,j
     logical :: restart
-    open(unit=30, file=data_filename)
-    read(30,*)
-    read(30,*)
-    read(30,*) n_atoms, ignore
-    read(30,*) n_bonds, ignore
-    read(30,*) n_angles, ignore
-    read(30,*) n_dih, ignore
-    read(30,*) n_imp, ignore
+    open(unit=ndata, file=data_filename)
+    read(ndata,*)
+    read(ndata,*)
+    read(ndata,*) n_atoms, ignore
+    read(ndata,*) n_bonds, ignore
+    read(ndata,*) n_angles, ignore
+    read(ndata,*) n_dih, ignore
+    read(ndata,*) n_imp, ignore
     !Allocate Arrays that rely on n_atoms, n_bonds, n_angles,n_dih, and n_imp
     allocate(a_id(n_atoms))
     allocate(mol_id(n_atoms))
@@ -62,19 +62,19 @@ subroutine read_data(data_filename,restart)
     allocate(fy_o(n_atoms))
     allocate(fz_o(n_atoms))
 
-    read(30,*)
-    read(30,*) n_a_type, ignore, ignore
+    read(ndata,*)
+    read(ndata,*) n_a_type, ignore, ignore
     IF (n_bonds.ne.0) THEN
-        read(30,*) n_b_type, ignore, ignore
+        read(ndata,*) n_b_type, ignore, ignore
     END IF
     IF (n_angles.ne.0) THEN
-        read(30,*) n_angle_type, ignore, ignore
+        read(ndata,*) n_angle_type, ignore, ignore
     END IF
     IF (n_dih.ne.0) THEN
-        read(30,*) n_dih_type, ignore, ignore
+        read(ndata,*) n_dih_type, ignore, ignore
     END IF
     IF (n_imp.ne.0) THEN
-        read(30,*) n_imp_type, ignore, ignore
+        read(ndata,*) n_imp_type, ignore, ignore
     END IF
 
     !Allocates basted on n_a_type, n_b_type, n_ang_type, n_dih_type, n_imp_type
@@ -85,54 +85,54 @@ subroutine read_data(data_filename,restart)
     allocate(req(n_b_type))
     allocate(k_ang(n_angle_type))
     allocate(theta_eq(n_angle_type))
-    read(30,*)
-    read(30,*) xlo, xhi, ignore, ignore
-    read(30,*) ylo, yhi, ignore, ignore
-    read(30,*) zlo, zhi, ignore, ignore
-    read(30,*)
+    read(ndata,*)
+    read(ndata,*) xlo, xhi, ignore, ignore
+    read(ndata,*) ylo, yhi, ignore, ignore
+    read(ndata,*) zlo, zhi, ignore, ignore
+    read(ndata,*)
     !Reads in the Masses
-    read(30,*)
-    read(30,*)
+    read(ndata,*)
+    read(ndata,*)
     DO i = 1, n_a_type
-        read(30,*) ignore, M(i)
+        read(ndata,*) ignore, M(i)
         M(i) = M(i)/(4.184*10**4)
     END DO
-    read(30,*)
+    read(ndata,*)
     !Reads in the Pair Coeffs
-    read(30,*)
-    read(30,*)
+    read(ndata,*)
+    read(ndata,*)
     DO i = 1, n_a_type
-        read(30,*) ignore, ep(i), sig(i)
+        read(ndata,*) ignore, ep(i), sig(i)
     END DO
-    read(30,*)
+    read(ndata,*)
     !Reads in the Atoms Section
-    read(30,*)
-    read(30,*)
+    read(ndata,*)
+    read(ndata,*)
     DO i = 1, n_atoms
-        read(30,*) a_id(i), mol_id(i), a_type(i), q(i), x(i), y(i), z(i)
+        read(ndata,*) a_id(i), mol_id(i), a_type(i), q(i), x(i), y(i), z(i)
     END DO
     IF (n_bonds.ne.0) THEN
-        read(30,*)
-        read(30,*)
-        read(30,*)
+        read(ndata,*)
+        read(ndata,*)
+        read(ndata,*)
         DO i = 1, n_bonds
-            read(30,*) ignore, bond_table(i,1), bond_table(i,2), bond_table(i,3)
+            read(ndata,*) ignore, bond_table(i,1), bond_table(i,2), bond_table(i,3)
         END DO
     END IF
     IF (n_angles.ne.0) THEN
-        read(30,*)
-        read(30,*)
-        read(30,*)
+        read(ndata,*)
+        read(ndata,*)
+        read(ndata,*)
         DO i = 1, n_angles
-            read(30,*) ignore, angle_table(i,1), angle_table(i,2), angle_table(i,3), angle_table(i,4)
+            read(ndata,*) ignore, angle_table(i,1), angle_table(i,2), angle_table(i,3), angle_table(i,4)
         END DO
     END IF
     IF (n_dih.ne.0) THEN
-        read(30,*)
-        read(30,*)
-        read(30,*)
+        read(ndata,*)
+        read(ndata,*)
+        read(ndata,*)
         DO i = 1, n_dih
-            read(30,*) ignore, dih_table(i,1), dih_table(i,2), dih_table(i,3), dih_table(i,4), dih_table(i,5)
+            read(ndata,*) ignore, dih_table(i,1), dih_table(i,2), dih_table(i,3), dih_table(i,4), dih_table(i,5)
         END DO
     END IF
     IF (n_imp.ne.0) THEN
@@ -140,7 +140,7 @@ subroutine read_data(data_filename,restart)
     END IF
     IF (restart) THEN
         DO i = 1, n_atoms
-            read(30,*) ignore, vx(i), vy(i), vz(i)
+            read(ndata,*) ignore, vx(i), vy(i), vz(i)
         END DO
 
     END IF
@@ -158,5 +158,5 @@ subroutine read_data(data_filename,restart)
             END IF
         END DO
     END DO
-    close(unit=30)
+    close(unit=ndata)
 end subroutine
