@@ -14,7 +14,7 @@ program classical_md
 
        implicit none
 
-       integer(kind = ip) :: df_xyz,df_thermo,df_rest,nstep,fc_flag,nstep
+       integer(kind = ip) :: df_xyz,df_thermo,df_rest,nstep,fc_flag
        integer(kind = ip) :: i,d
 
        character(len=50) :: data_filename,nvt_type
@@ -66,7 +66,9 @@ program classical_md
 
 ! apply thermostat
 
-            if (thermostat .gt. 1) then
+            
+            if ((trim(nvt_type) .eq. "rescale" .or. &
+                trim(nvt_type) .eq. "anderson")) then
 
                  call thermostat(nvt_type,temp_inst)
 
