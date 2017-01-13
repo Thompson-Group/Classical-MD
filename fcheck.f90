@@ -2,13 +2,16 @@
 !     An atom is chosen at random, moved by a small amount and                                          
 !     numerical derivatives taken and compared to the forces         
 !
-  Subroutine force_check
+  Subroutine force_check(fc_label)
 
     use common_variables
     implicit none
+    
+    character*3 :: fc_label
 
 !Working variables
     integer :: iat
+    integer, parameter :: nfc=29
     real(kind=dp) :: num
     real(kind=dp) :: fx0, fy0, fz0, fxnum, fynum, fznum
     real(kind=dp) :: fx0_a, fy0_a, fz0_a, fx0_b, fy0_b, fz0_b
@@ -133,6 +136,8 @@
 
 !   Write out results
 
+    open(nfc,file='force_check_'//trim(fc_label))
+
     write(nfc,*) ' ----- Total Forces -----'
     write(nfc,*) ' Analytical: fx = ',fx0,' Numerical:  fx = ',fxnum
     write(nfc,*) ' % Error in fx = ',(fx0-fxnum)*100.0_dp/fxnum
@@ -186,6 +191,8 @@
     write(nfc,*)
     write(nfc,*) ' Analytical: fz = ',fz0_c,' Numerical:  fz = ',fznum_c
     write(nfc,*) ' % Error in fz = ',(fz0_c-fznum_c)*100.0_dp/fznum_c
+
+    close(nfc)
 
     End subroutine force_check
 
