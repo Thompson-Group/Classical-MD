@@ -25,7 +25,7 @@
 
 
 !  Subroutine to dump the thermodynamic properties 
-!    input argument is the time
+!    input argument is the timestep, converted to time here
 !
 
   Subroutine thermo_dump(istep)
