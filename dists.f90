@@ -1,26 +1,35 @@
-subroutine dists(x,y,z,l,natoms,rx,ry,rz)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!subroutine to calculate distances to other atoms
+!Written by Paul Burris and Ward Thompson
+!January 2017
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+subroutine dists
+
+use common_variables
 implicit none
 
-integer :: natoms
-real(kind=dp), dimension(natoms,natoms) :: rx, ry, rz, x, y, z
-real(kind=dp), dimension(natoms) :: xtmp, ytmp, ztmp
-real(kind=dp), dimension(3) :: l
+real(kind=dp) :: xtmp, ytmp, ztmp
 ! working variables
 integer :: j, i
 
 
-do j = 1, natoms-1
-   do i = j+1, natoms
-      xtmp(j) = x(j)-anint((x(j)-x(i))/l(1))*l(1)
-      ytmp(j) = y(j)-anint((y(j)-y(i))/l(2))*l(2)
-      ztmp(j) = z(j)-anint((z(j)-z(i))/l(3))*l(3)
-      rx(i,j) = x(i)-xtmp(j)
-      ry(i,j) = y(i)-ytmp(j)      
-      rz(i,j) = z(i)-ztmp(j)
+do j = 1, n_atoms-1
+   do i = j+1, n_atoms
+      xtmp = x(j) - anint( (x(j) - x(i))/Lx )*Lx
+      ytmp = y(j) - anint( (y(j) - y(i))/Ly )*Ly
+      ztmp = z(j) - anint( (z(j) - z(i))/Lz )*Lz
+
+      rx(i,j) = x(i) - xtmp
+      ry(i,j) = y(i) - ytmp
+      rz(i,j) = z(i) - ztmp
+
+      rx(j,i) = rx(i,j)
+      ry(j,i) = ry(i,j)
+      rz(j,i) = rz(i,j)
+
    enddo
 enddo
-rx(j,i) = rx(i,j)
-ry(j,i) = ry(i,j)
-rz(j,i) = rz(i,j)
 
 end subroutine dists
