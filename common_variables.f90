@@ -11,9 +11,9 @@ Module common_variables
   use kinds
   Implicit none
 
-  integer(kind=ip) :: n_atoms, n_bonds, n_angles, n_dih, n_imp
+  integer(kind=ip) :: n_atoms, n_bonds, n_angles, n_dih, n_imp, coul_flag
   integer(kind=ip) :: n_a_type, n_b_type, n_angle_type, n_dih_type, n_imp_type
-  real(kind=dp) :: xlo, xhi, ylo, yhi, zlo, zhi, Lx, Ly, Lz, r_cut, alpha, v_a, v_b, v_c, v_v, v_tot
+  real(kind=dp) :: xlo, xhi, ylo, yhi, zlo, zhi, Lx, Ly, Lz, r_cut, del, alpha, v_a, v_b, v_c, v_v, v_tot
   integer(kind=ip), allocatable, dimension(:)   :: a_id, mol_id, a_type
   real(kind=dp), allocatable, dimension(:,:) :: rx, ry, rz, bond_table, angle_table, ee, ss, qq, dih_table
   real(kind=dp), allocatable, dimension(:) :: fx_v, fy_v, fz_v, fx_c, fy_c, fz_c, fx_tot, fy_tot, fz_tot
