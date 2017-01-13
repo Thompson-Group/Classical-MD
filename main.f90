@@ -18,7 +18,7 @@ program classical_md
 
        character(len=50) :: data_filename
 
-       logical :: restart
+       logical :: restart,change
 
 ! read simulation input parameters
 ! Note: this subroutine also calls read_data.f90 to read in initial
