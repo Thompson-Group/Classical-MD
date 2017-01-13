@@ -3,7 +3,7 @@
 !
 !         V_c(r_ij) = C*q(i)*q(j)/r_ij
 !
-!         V_ij(r_ij) = V_c(r_ij) - V_c(rcut) - (dV/dr)|_rcut * (r_ij - rcut)
+!         V_ij(r_ij) = V_c(r_ij) - V_c(r_cut) - (dV/dr)|_r_cut * (r_ij - r_cut)
 !
 ! This routine assumes an array of the charge products qq(i,j) = q(i)*q(j) has been calculated
 !
@@ -12,20 +12,14 @@
 ! Jan. 12, 2017 - Paul Burris & Ward Thompson
 !
 
-  Subroutine coulomb_dsf(natoms,rx,ry,rz,rcut,qq, fx_c,fy_c,fz_c,v_c,alpha)
+  Subroutine coulomb_dsf
 
-  use kinds
+  use common_variables
   implicit none
-
-  integer :: natoms
-  real(kind=dp) :: rcut, v_c, alpha
-  real(kind=dp), dimension(natoms,natoms) :: rx, ry, rz
-  real(kind=dp), dimension(natoms) :: fx_c, fy_c, fz_c
-  real(kind=dp), dimension(natoms,natoms) :: qq
 
 !Working variables
   integer i, j
-  real(kind=dp), parameter :: C_coul = 1.0_dp
+  real(kind=dp), parameter :: C_coul = 332.0637301_dp
   real(kind=dp) :: rij, fxtmp, fytmp, fztmp
   real(kind=dp) :: Cpref, etmp, ecut, exptmp, expcut
   real(kind=dp) :: pi = 4.0_dp*atan(1.0_dp)
@@ -37,21 +31,21 @@
 
   v_c = 0.0_dp; fx_c = 0.0_dp; fy_c = 0.0_dp; fz_c = 0.0_dp
 
-  do j = 1, natoms - 1
-     do i = j + 1, natoms
+  do j = 1, n_atoms - 1
+     do i = j + 1, n_atoms
 
         rij = sqrt( rx(i,j)**2 + ry(i,j)**2 + rz(i,j)**2 )  ! Calculate the atom-atom distance
 
-        if (rij.le.rcut) then
+        if (rij.le.r_cut) then
            
            !Define some quantities used multiple times
            Cpref = C_coul*qq(i,j)
            etmp = erfc(alpha*rij)/rij**2
-           ecut = erfc(alpha*rcut)/rcut**2
+           ecut = erfc(alpha*r_cut)/r_cut**2
            exptmp = 2.0_dp*alpha/sqrt(pi)*exp(-(alpha*rij)**2)/rij
-           expcut = 2.0_dp*alpha/sqrt(pi)*exp(-(alpha*rcut)**2)/rcut
+           expcut = 2.0_dp*alpha/sqrt(pi)*exp(-(alpha*r_cut)**2)/r_cut
 
-           v_c = v_c + Cpref*( etmp*rij - ecut*rcut + ( ecut + expcut*(rij-rcut) ) )  ! potential
+           v_c = v_c + Cpref*( etmp*rij - ecut*r_cut + ( ecut + expcut*(rij-r_cut) ) )  ! potential
 
 
            fxtmp = ( Cpref*rx(i,j)/rij )*( (etmp + exptmp) - (ecut + expcut) )  !force on i in x due to j

@@ -10,32 +10,26 @@
 ! Jan. 12, 2017 - Paul Burris & Ward Thompson
 !
 
-  Subroutine coulomb(natoms,rx,ry,rz,rcut,qq, fx_c,fy_c,fz_c,v_c)
+  Subroutine coulomb
 
-  use kinds
+  use common_variables
   implicit none
-
-  integer :: natoms
-  real(kind=dp) :: rcut, v_c
-  real(kind=dp), dimension(natoms,natoms) :: rx, ry, rz
-  real(kind=dp), dimension(natoms) :: fx_c, fy_c, fz_c
-  real(kind=dp), dimension(natoms,natoms) :: qq
 
 !Working variables
   integer i, j
-  real(kind=dp), parameter :: C_coul = 1.0_dp
+  real(kind=dp), parameter :: C_coul = 332.0637301_dp
   real(kind=dp) :: rij, fxtmp, fytmp, fztmp
 
 ! Loop over pairs of atoms
 
   v_c = 0.0_dp; fx_c = 0.0_dp; fy_c = 0.0_dp; fz_c = 0.0_dp
 
-  do j = 1, natoms - 1
-     do i = j + 1, natoms
+  do j = 1, n_atoms - 1
+     do i = j + 1, n_atoms
 
         rij = sqrt( rx(i,j)**2 + ry(i,j)**2 + rz(i,j)**2 )  ! Calculate the atom-atom distance
 
-        if (rij.le.rcut) then
+        if (rij.le.r_cut) then
            
            v_c = v_c + C_coul*qq(i,j)/rij                   ! Calculate the contribution to the potential
 
