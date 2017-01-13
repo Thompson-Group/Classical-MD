@@ -62,7 +62,7 @@ program classical_md
 
 ! calculate thermodynamic properties
 
-            if (mod(i,df_thermo) .eq. 0) call thermo_stuff()
+            if (mod(i,df_thermo) .eq. 0) call thermo_dump(i)
 
 ! apply thermostat
 
@@ -76,7 +76,7 @@ program classical_md
 
 ! write traj
 
-            if (mod(i,df_xyz) .eq. 0) call thermo_dump(i)
+            if (mod(i,df_xyz) .eq. 0) call dump(i)
 
        enddo
 
