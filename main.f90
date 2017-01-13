@@ -70,7 +70,7 @@ program classical_md
             if ((trim(nvt_type) .eq. "rescale" .or. &
                 trim(nvt_type) .eq. "anderson")) then
 
-                 call thermostat(nvt_type,temp_inst)
+                 call thermostat(nvt_type)
 
             endif
 
