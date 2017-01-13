@@ -5,7 +5,7 @@ Module common_variables
 !Zeke will allocate the arrays and read in values for the variables in the read_data code
 ! use this module as needed in other subroutines
 !Written by Mesele and Pubudu
-! Hackathon Thursday January 17, 2017
+! Hackathon Thursday January 12, 2017
 !**************************************************************************************************************
 
   use kinds
@@ -20,4 +20,24 @@ Module common_variables
   real(kind=dp), allocatable, dimension(:) :: M, q, vx, vy, vz, ep, sig
   real(kind=dp), allocatable, dimension(:) :: x, y, z, fx_b, fy_b, fz_b, fx_a, fy_a, fz_a, k_r, req, k_ang, theta_eq
   real(kind=dp), allocatable, dimension(:) :: x_o, y_o, z_o, vx_o, vy_o, vz_o, fx_o, fy_o, fz_o
+end module
+
+
+
+Module constants
+!**************************************************************************************************************
+! This module contains constants and the numbers used for output files.
+! These variables do not need to be declared in other subroutines. 
+! use this module as needed in other subroutines
+!Written by Ward Thompson
+! Hackathon Friday January 13, 2017
+!**************************************************************************************************************
+
+  use kinds
+  Implicit none
+
+  integer, parameter :: nxyz=20, nthermo=21
+  real(kind=dp), parameter :: kb=0.9919872036_dp 
+  real(kind=dp), parameter :: mass_conv=2.390057361e-5_dp 
+
 end module
