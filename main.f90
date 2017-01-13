@@ -14,9 +14,7 @@ program classical_md
 
        implicit none
 
-       real(kind = dp) :: temp,dt
-
-       integer(kind = ip) :: nmd,nlog,df_xyz,df_thermo,df_rest
+       integer(kind = ip) :: df_xyz,df_thermo,df_rest,nstep
 
        character(len=50) :: data_filename
 
@@ -26,7 +24,8 @@ program classical_md
 ! Note: this subroutine also calls read_data.f90 to read in initial
 ! configurations
 
-       call read_input(data_filename,df_xyz,df_thermo,df_rest,nvt_type)
+       call read_input(data_filename,df_xyz,df_thermo,df_rest,nvt_type,fc_flag,&
+                       nstep)
 
 ! set initial velocites if not a restart
 
@@ -46,7 +45,7 @@ program classical_md
 
 !*****************************START MD SIMULATION***********************!
 
-       do i = 1 , nmd
+       do i = 1 , nstep
 
 ! update positions in first stage of VV integrator
 
@@ -62,19 +61,19 @@ program classical_md
 
 ! calculate thermodynamic properties
 
-            if (mod(i,nlog) .eq. 0) call thermo_stuff()
+            if (mod(i,dsf_thermo) .eq. 0) call thermo_stuff()
 
 ! apply thermostat
 
             if (thermostat .gt. 1) then
 
-                 call thermostat(kb,KE,temp,temp_c,lambda)
+                 call thermostat(nvt_type,temp_inst)
 
             endif
 
 ! write traj
 
-            if (mod(i,nhis) .eq. 0) call thermo_dump(i)
+            if (mod(i,dsf_xyz) .eq. 0) call thermo_dump(i)
 
        enddo
 
