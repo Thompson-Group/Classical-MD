@@ -4,12 +4,12 @@ use common_variables
 implicit none
 
 integer(kind=ip),intent(in) :: i
-open(20,file=dumpfile)
+integer(kind=ip) :: j
 
-	write(30,*) n_atoms
-	write(30,*) 'Atoms. Timestep: ', i
+	write(nxyz,*) n_atoms
+	write(nxyz,*) 'Atoms. Timestep: ', i
 	do j=1,n_atoms
-		write(30,*) n_a_type(j), x(j), y(j), z(i)
+		write(nxyz,*) a_type(j), x(j), y(j), z(i)
 	end do
 
 end subroutine dump
