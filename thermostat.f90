@@ -1,46 +1,46 @@
-subroutine termostat(type,dt,n,seed,numx,nu,kb,KE,Temp,Temp_c,lamda,vxo,vyo,vzo)
+subroutine termostat(nvt_type,KE,temp_inst)
 
      use common_variables
+     use constants
      implicit none
 
-     integer (kind = ip) :: i,j,type,dt(4)
+     integer (kind = ip) :: i,j,type,dt
      integer :: n
-     real (kind = dp) :: kb,Temp,Temp_c,lamda,KE,nu,vxb,vyb,vzb,numx
-     real (kind = dp),dimension(n_atoms) :: vxo,vyo,vzo
+     real (kind = dp) :: temp,temp_inst,lamda,KE,vxb,vyb,vzb,numx,nu
      integer,dimension(:),allocatable :: seed
+     character :: nvt_type
  
      call random_seed(size=n)
      allocate(seed(n))
      call date_and_time(values=dt)
-     seed(1:) = dt(4)*(/(j,j = 1,n)/)
+     seed(1:) = dt*(/(j,j = 1,n)/)
      call random_seed(put=seed)
  
-     if(type .eq. 1) then 
+     if(nvt_type .eq. "rescale") then 
 
-  
+          temp_inst = 2*KE/((3*n_atoms-6)*kb)
           do i = 1,n_atoms
 
-              Temp_c = 2*KE/n_atoms*kb
          
-              if (Temp_c .gt. 0) then
+              if (temp_inst .gt. 0) then
  
-                 lamda = sqrt(Temp/Temp_c)
+                 lamda = sqrt(temp/temp_inst)
               
-                 vx(i) = lamda*vxo(i)
-                 vy(i) = lamda*vyo(i)
-                 vz(i) = lamda*vzo(i)
+                 vx(i) = lamda*vx_o(i)
+                 vy(i) = lamda*vy_o(i)
+                 vz(i) = lamda*vz_o(i)
  
               endif
 
            enddo
 
-     elseif(type .eq.  2) then
+     elseif(nvt_type .eq.  "andersen") then
 
            
            do j = 1,n_atoms
  
                call random_number(numx)
-               if(numx .lt. nu*dt(4)) then
+               if(numx .lt. nu*dt) then
                  
                  call boltz_vel(vxb,vyb,vzb)                  
                  vx(j)= vxb
