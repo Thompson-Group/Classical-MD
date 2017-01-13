@@ -1,4 +1,4 @@
-subroutine calculate_bond(bond_style)
+subroutine calculate_bond
     use kinds
     use common_variables
     implicit none
@@ -9,7 +9,6 @@ subroutine calculate_bond(bond_style)
     real(kind=dp), dimension(n_bonds):: rinst
     !Array read in from read_data.f90, stores bonding information.
     real(kind=dp) :: u_bond, r_sep
-    character(len=14) :: bond_style
     
    
     

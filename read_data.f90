@@ -5,6 +5,7 @@ subroutine read_data(data_filename,restart)
     implicit none
     character(len=50) :: ignore, data_filename
     integer(kind=ip) :: i,j
+    real(kind=dp) :: Q_tot
     logical :: restart
     open(unit=ndata, file=data_filename)
     read(ndata,*)
@@ -159,5 +160,12 @@ subroutine read_data(data_filename,restart)
             END IF
         END DO
     END DO
+
+    DO i=1, n_atoms
+        Q_tot = Q_tot+q(i)
+    END DO
+    if (Q_tot .ne. 0.0) then
+        write(*,*) "Error: Box has total charge that is non-zero."
+    end if
     close(unit=ndata)
 end subroutine

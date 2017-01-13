@@ -1,8 +1,8 @@
-subroutine read_input(data_filename,df_xyz,df_thermo,df_rest, nvt_type,fc_flag,nstep, bond_style)
+subroutine read_input(data_filename,df_xyz,df_thermo,df_rest, nvt_type,fc_flag,nstep)
     use kinds
     use common_variables
     integer(kind=ip) :: i, j, ign_int,df_xyz, df_thermo, df_rest,nstep
-    character(len=50) :: data_filename,word,input_filename, run_style, nvt_type, coul_tmp, bond_style
+    character(len=50) :: data_filename,word,input_filename, run_style, nvt_type, coul_tmp
     logical :: restart,fc_flag
     open(unit=ninput, file=input_filename)
      
