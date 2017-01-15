@@ -9,9 +9,9 @@ subroutine calculate_bond
     real(kind=dp), dimension(n_bonds):: rinst
     !Array read in from read_data.f90, stores bonding information.
     real(kind=dp) :: u_bond, r_sep
-    
-   
-    
+       
+    !Initialize
+    v_b = 0.0_dp
 
     !Bond Energy and Force Calculations
     IF (bond_style.eq."harmonic") THEN
@@ -31,6 +31,8 @@ subroutine calculate_bond
             !Potential Energy Calculation
             u_bond=0.5*k_r(b_type)*r_sep**2
             v_b = v_b + u_bond
+            write(*,"(3i2)") i , b_atom_1 , b_atom_2
+            write(*,"(i2,3f10.5)") i , rinst(i) , u_bond , v_b
 
             !Force calculation 
             !Calculates the force on atom 1 as:

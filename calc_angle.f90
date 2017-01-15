@@ -20,10 +20,10 @@ subroutine calc_angle
 	do i=1,n_angles
 
 !initialize angle type and atoms involved in the angle 
-		a = bond_table(i,1)
-		b = bond_table(i,2)
-		c = bond_table(i,3)
-                d = bond_table(i,4)
+		a = angle_table(i,2)
+		b = angle_table(i,3)
+		c = angle_table(i,4)
+                d = angle_table(i,1)
 !calculate parameters neccesary for bond angle evaluation
 
 		dot_prod = rx(a,b)*rx(b,c) + ry(a,b)*ry(b,c) + rz(a,b)*rz(b,c)
@@ -32,6 +32,8 @@ subroutine calc_angle
 ! all angles used in the calculation of energy should be in radians as K is in kcall/mol/rad^2                
                 catmp = dot_prod/(lenR1*lenR2)
 		rad_ang = acos(catmp)
+                write(*,"(4i2)") i , a , b , c
+                write(*,"(i2,f10.5)") i , rad_ang 
 		pi = 4.0_dp*atan(1.0_dp)
 		rad_equi = theta_eq(d)*pi/180_dp 
 !cfac is a common parameter for all the forces

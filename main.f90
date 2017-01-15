@@ -40,6 +40,7 @@ program classical_md
 ! Note: this subroutine also calls read_data.f90 to read in initial
 ! configurations
 
+       write(*,*) "Reading inputs"
        call read_input(input_filename,df_xyz,df_thermo,df_rest,nvt_type,fc_flag,&
                        nstep)
 
@@ -49,20 +50,25 @@ program classical_md
 
 ! calculate force of initial configuration
 
+       write(*,*) "Calculating initial forces"
        call forces
 
 ! do a force check
 
+       write(*,*) "Doing a force check"
        call force_check
 
 ! open output files
 
+       write(*,*) "Opening output files"
        call output_setup('start')
 
 !*****************************START MD SIMULATION***********************!
 
+       write(*,*) "Beginning Molecular Dynamics!"
        do i = 1 , nstep
 
+            write(*,*) "Step: " , i 
 ! update positions in first stage of VV integrator
 
             call integrator(1)

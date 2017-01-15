@@ -14,7 +14,6 @@ real(kind=dp) :: xtmp, ytmp, ztmp
 ! working variables
 integer :: j, i
 
-
 do j = 1, n_atoms-1
    do i = j+1, n_atoms
       xtmp = x(j) - anint( (x(j) - x(i))/Lx )*Lx
