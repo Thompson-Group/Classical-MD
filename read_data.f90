@@ -87,11 +87,15 @@ subroutine read_data(data_filename,restart)
     allocate(req(n_b_type))
     allocate(k_ang(n_angle_type))
     allocate(theta_eq(n_angle_type))
+    !Reads in box size
     read(ndata,*)
     read(ndata,*) xlo, xhi, ignore, ignore
     read(ndata,*) ylo, yhi, ignore, ignore
     read(ndata,*) zlo, zhi, ignore, ignore
     read(ndata,*)
+    Lx = 2.0_dp * xhi
+    Ly = 2.0_dp * yhi
+    Lz = 2.0_dp * zhi
     !Reads in the Masses
     read(ndata,*)
     read(ndata,*)
@@ -113,6 +117,7 @@ subroutine read_data(data_filename,restart)
     DO i = 1, n_atoms
         read(ndata,*) a_id(i), mol_id(i), a_type(i), q(i), x(i), y(i), z(i)
     END DO
+    !Reads in the Bonds Section
     IF (n_bonds.ne.0) THEN
         read(ndata,*)
         read(ndata,*)
@@ -121,14 +126,16 @@ subroutine read_data(data_filename,restart)
             read(ndata,*) ignore, bond_table(i,1), bond_table(i,2), bond_table(i,3)
         END DO
     END IF
+    !Reads in the Angles Section
     IF (n_angles.ne.0) THEN
-        read(ndata,*)
-        read(ndata,*)
-        read(ndata,*)
+        read(ndata,*) 
+        read(ndata,*) 
+        read(ndata,*) 
         DO i = 1, n_angles
             read(ndata,*) ignore, angle_table(i,1), angle_table(i,2), angle_table(i,3), angle_table(i,4)
         END DO
     END IF
+    !Reads in the Dihedrals Section
     IF (n_dih.ne.0) THEN
         read(ndata,*)
         read(ndata,*)

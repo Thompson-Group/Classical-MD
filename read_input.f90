@@ -1,7 +1,7 @@
 subroutine read_input(input_filename,df_xyz,df_thermo,df_rest, nvt_type,fc_flag,nstep)
     use kinds
     use common_variables
-    integer(kind=ip) :: i, j, ign_int,df_xyz, df_thermo, df_rest,nstep
+    integer(kind=ip) :: i, j, ign_int,df_xyz, df_thermo, df_rest,nstep,done
     character(len=50) :: data_filename,word,input_filename, run_style, nvt_type, coul_tmp
     logical :: restart,fc_flag
     open(unit=ninput, file=input_filename)
@@ -21,8 +21,10 @@ subroutine read_input(input_filename,df_xyz,df_thermo,df_rest, nvt_type,fc_flag,
     call read_data(data_filename,restart)
 
         read(ninput,*)
-    do
-        read(ninput,*) word
+    loopread:do 
+        read(ninput,*,iostat=done) word
+        if(done .lt. 0) exit loopread
+
         if (word .eq. 'bond_style') then
             read(ninput,*) bond_style
         else if (word .eq. 'bond_coeffs') then
@@ -80,7 +82,7 @@ subroutine read_input(input_filename,df_xyz,df_thermo,df_rest, nvt_type,fc_flag,
             exit
         end if
         read(ninput,*)  
-    end do
+    end do loopread
 
        
 
