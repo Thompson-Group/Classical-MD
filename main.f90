@@ -15,17 +15,31 @@ program classical_md
        implicit none
 
        integer(kind = ip) :: df_xyz,df_thermo,df_rest,nstep,fc_flag
-       integer(kind = ip) :: i,d
+       integer(kind = ip) :: i,d,nargs
 
-       character(len=50) :: input_filename,nvt_type
+       character(len=50) :: input_filename,nvt_type,arg
 
        logical :: restart,change
+
+! read inputs from command line
+
+       nargs = command_argument_count()
+
+       if (nargs .ne. 2) then
+
+            write(*,*) "Usage: 'main -in input_file' where input_file is the input script for the molecular dynamics run"
+
+            stop
+
+       endif
+
+       call getarg(2,arg) 
+       read(arg,*) input_filename
 
 ! read simulation input parameters
 ! Note: this subroutine also calls read_data.f90 to read in initial
 ! configurations
 
-       read(*,*) input_filename
        call read_input(input_filename,df_xyz,df_thermo,df_rest,nvt_type,fc_flag,&
                        nstep)
 
