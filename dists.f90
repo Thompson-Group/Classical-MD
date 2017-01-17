@@ -24,9 +24,9 @@ do j = 1, n_atoms-1
       ry(i,j) = y(i) - ytmp
       rz(i,j) = z(i) - ztmp
 
-      rx(j,i) = rx(i,j)
-      ry(j,i) = ry(i,j)
-      rz(j,i) = rz(i,j)
+      rx(j,i) = -rx(i,j)
+      ry(j,i) = -ry(i,j)
+      rz(j,i) = -rz(i,j)
 
    enddo
 enddo
