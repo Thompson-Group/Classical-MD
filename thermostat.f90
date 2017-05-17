@@ -19,15 +19,16 @@ subroutine thermostat(nvt_type)
      
  
      if(nvt_type .eq. "rescale") then 
+          ke = 0.0_dp
           do i = 1, n_atoms
 
             ke = ke + 0.5_dp*M(i)*(vx(i)**2 + vy(i)**2 + vz(i)**2)
           
           enddo
            
-          temp_inst = 2*ke/((3*n_atoms-6)*kb)
+          temp_inst = 2.0_dp*ke/(3.0_dp*real(n_atoms-2)*kb)
          
-          do i = 1,n_atoms
+          do i = 1, n_atoms
 
          
               if (temp_inst .gt. 0) then
@@ -45,7 +46,7 @@ subroutine thermostat(nvt_type)
      elseif(nvt_type .eq.  "andersen") then
 
            
-           do j = 1,n_atoms
+           do j = 1, n_atoms
  
                call random_number(numx)
                if(numx .lt. nu*dt) then

@@ -15,11 +15,11 @@
   Subroutine coulomb_sf
 
   use common_variables
+  use constants
   implicit none
 
 !Working variables
   integer i, j
-  real(kind=dp), parameter :: C_coul = 332.0637301_dp
   real(kind=dp) :: rij, fxtmp, fytmp, fztmp
 
 ! Loop over pairs of atoms

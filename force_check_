@@ -1,0 +1,51 @@
+ Atom chosen =  449
+ 
+  ----- Total Forces -----
+ Analytical: fx =      0.00000789 Numerical:  fx =      0.00000789
+ % Error in fx =      0.03066907
+ 
+ Analytical: fy =     -0.00001811 Numerical:  fy =     -0.00001810
+ % Error in fy =      0.07561205
+ 
+ Analytical: fz =     -0.00003065 Numerical:  fz =     -0.00003063
+ % Error in fz =      0.04548566
+ 
+  ----- Bond Stretching Forces -----
+ Analytical: fx =      0.00000715 Numerical:  fx =      0.00000715
+ % Error in fx =      0.09929264
+ 
+ Analytical: fy =     -0.00001229 Numerical:  fy =     -0.00001228
+ % Error in fy =      0.08304817
+ 
+ Analytical: fz =     -0.00002143 Numerical:  fz =     -0.00002142
+ % Error in fz =      0.03286241
+ 
+  ----- Angle Bending Forces -----
+ Analytical: fx =      0.00000130 Numerical:  fx =      0.00000130
+ % Error in fx =     -0.10728022
+ 
+ Analytical: fy =      0.00000041 Numerical:  fy =      0.00000041
+ % Error in fy =      0.00907330
+ 
+ Analytical: fz =      0.00000020 Numerical:  fz =      0.00000020
+ % Error in fz =      0.02754157
+ 
+  ----- van der Waals Forces -----
+ Analytical: fx =      0.00000000 Numerical:  fx =      0.00000000
+ % Error in fx =             NaN
+ 
+ Analytical: fy =      0.00000000 Numerical:  fy =      0.00000000
+ % Error in fy =             NaN
+ 
+ Analytical: fz =      0.00000000 Numerical:  fz =      0.00000000
+ % Error in fz =             NaN
+ 
+  ----- Electrostatic Forces -----
+ Analytical: fx =     -0.00000056 Numerical:  fx =     -0.00000056
+ % Error in fx =      0.00004053
+ 
+ Analytical: fy =     -0.00000624 Numerical:  fy =     -0.00000624
+ % Error in fy =      0.00000152
+ 
+ Analytical: fz =     -0.00000941 Numerical:  fz =     -0.00000941
+ % Error in fz =     -0.00000176
