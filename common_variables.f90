@@ -19,7 +19,6 @@ Module common_variables
   real(kind=dp), allocatable, dimension(:) :: fx_v, fy_v, fz_v, fx_c, fy_c, fz_c, fx_tot, fy_tot, fz_tot
   real(kind=dp), allocatable, dimension(:) :: M, q, vx, vy, vz, ep, sig
   real(kind=dp), allocatable, dimension(:) :: x, y, z, fx_b, fy_b, fz_b, fx_a, fy_a, fz_a, k_r, req, k_ang, theta_eq
-  real(kind=dp), allocatable, dimension(:) :: x_o, y_o, z_o, vx_o, vy_o, vz_o, fx_o, fy_o, fz_o
   character(len=50) :: bond_style
 end module
 
@@ -38,7 +37,8 @@ Module constants
   Implicit none
 
   integer, parameter :: nxyz=20, nthermo=21, ndata=30, ninput=31, nrest=22
-  real(kind=dp), parameter :: kb=0.9919872036_dp 
-  real(kind=dp), parameter :: mass_conv=2.390057361e-5_dp 
+  real(kind=dp), parameter :: kb=0.0019872041_dp
+!  real(kind=dp), parameter :: mass_conv=2.390057361e-7_dp 
+  real(kind=dp), parameter :: mass_conv=4.184e-4_dp 
 
 end module

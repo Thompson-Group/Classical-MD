@@ -19,6 +19,10 @@ subroutine initvel
 
        RT = kb * temp
        mtot = sum(M)
+       write(6,*) ' T  = ',temp
+       write(6,*) ' RT = ',RT
+       write(6,*) ' mtot = ',mtot
+       write(52,*) M
 
 ! loop over all atoms
 
@@ -49,9 +53,9 @@ subroutine initvel
             gset = r1*fac
             gauss = r2*fac
  
-            vx(i) = gauss*sign(1d0,2d0*sx-1d0)*sqrt(RT/M(i))
-            vy(i) = gauss*sign(1d0,2d0*sy-1d0)*sqrt(RT/M(i))
-            vz(i) = gauss*sign(1d0,2d0*sz-1d0)*sqrt(RT/M(i))
+            vx(i) = gauss*sign(1.0_dp,2d0*sx-1.0_dp)*sqrt(RT/M(i))
+            vy(i) = gauss*sign(1.0_dp,2d0*sy-1.0_dp)*sqrt(RT/M(i))
+            vz(i) = gauss*sign(1.0_dp,2d0*sz-1.0_dp)*sqrt(RT/M(i))
  
             vcm_x = vcm_x + M(i)*vx(i)
             vcm_y = vcm_y + M(i)*vy(i)
@@ -59,15 +63,19 @@ subroutine initvel
           
        enddo
 
-       vcm_x = vcm_x/(mtot*real(mol_id(n_atoms)))
-       vcm_y = vcm_y/(mtot*real(mol_id(n_atoms)))
-       vcm_z = vcm_z/(mtot*real(mol_id(n_atoms)))
+       vcm_x = vcm_x/mtot
+       vcm_y = vcm_y/mtot
+       vcm_z = vcm_z/mtot
+!       vcm_x = vcm_x/(mtot*real(mol_id(n_atoms)))
+!       vcm_y = vcm_y/(mtot*real(mol_id(n_atoms)))
+!       vcm_z = vcm_z/(mtot*real(mol_id(n_atoms)))
 
 !      Subtract the center of mass velocity
 
        vx = vx - vcm_x
        vy = vy - vcm_y
        vz = vz - vcm_z
+       write(6,*) vx(1), vy(1), vz(1)
       
        return
 

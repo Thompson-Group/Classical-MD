@@ -6,7 +6,7 @@ subroutine thermostat(nvt_type)
 
      integer (kind = ip) :: i,j,step(8)
      integer :: n
-     real (kind = dp) :: temp_inst,KE,vxb,vyb,vzb,numx,lamda,nu
+     real (kind = dp) :: temp_inst,KE,vxb,vyb,vzb,numx,lambda,nu
      integer,dimension(:),allocatable :: seed
      character :: nvt_type
  
@@ -32,11 +32,11 @@ subroutine thermostat(nvt_type)
          
               if (temp_inst .gt. 0) then
  
-                 lamda = sqrt(temp/temp_inst)
+                 lambda = sqrt(temp/temp_inst)
               
-                 vx(i) = lamda*vx_o(i)
-                 vy(i) = lamda*vy_o(i)
-                 vz(i) = lamda*vz_o(i)
+                 vx(i) = lambda*vx(i)
+                 vy(i) = lambda*vy(i)
+                 vz(i) = lambda*vz(i)
  
               endif
 
