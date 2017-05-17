@@ -6,6 +6,7 @@ subroutine read_data(data_filename,restart)
     character(len=50) :: ignore, data_filename
     integer(kind=ip) :: i,j
     real(kind=dp) :: Q_tot
+    real(kind=dp), allocatable, dimension(:) :: M_bytype
     logical :: restart
     open(unit=ndata, file=data_filename)
     read(ndata,*)
@@ -47,22 +48,10 @@ subroutine read_data(data_filename,restart)
     allocate(fx_c(n_atoms))
     allocate(fy_c(n_atoms))
     allocate(fz_c(n_atoms))
-    allocate(fx_tot(n_atoms))
-    allocate(fy_tot(n_atoms))
-    allocate(fz_tot(n_atoms))
+    allocate(M(n_atoms))
     allocate(bond_table(n_bonds,3))
     allocate(angle_table(n_angles,4))
     allocate(dih_table(n_dih, 5))
-    !Allocates previous timestep arrays
-    allocate(x_o(n_atoms))
-    allocate(y_o(n_atoms))
-    allocate(z_o(n_atoms))
-    allocate(vx_o(n_atoms))
-    allocate(vy_o(n_atoms))
-    allocate(vz_o(n_atoms))
-    allocate(fx_o(n_atoms))
-    allocate(fy_o(n_atoms))
-    allocate(fz_o(n_atoms))
 
     read(ndata,*)
     read(ndata,*) n_a_type, ignore, ignore
@@ -80,7 +69,7 @@ subroutine read_data(data_filename,restart)
     END IF
 
     !Allocates basted on n_a_type, n_b_type, n_ang_type, n_dih_type, n_imp_type
-    allocate(M(n_a_type))
+    allocate(M_bytype(n_a_type))
     allocate(ep(n_a_type))
     allocate(sig(n_a_type))
     allocate(k_r(n_b_type))
@@ -100,11 +89,12 @@ subroutine read_data(data_filename,restart)
     read(ndata,*)
     read(ndata,*)
     DO i = 1, n_a_type
-        read(ndata,*) ignore, M(i)
-        M(i) = M(i)/(4.184*10**4)
+        read(ndata,*) ignore, M_bytype(i)
+        M_bytype(i) = M_bytype(i)*mass_conv
     END DO
-    read(ndata,*)
+
     !Reads in the Pair Coeffs
+    read(ndata,*)
     read(ndata,*)
     read(ndata,*)
     DO i = 1, n_a_type
@@ -117,6 +107,13 @@ subroutine read_data(data_filename,restart)
     DO i = 1, n_atoms
         read(ndata,*) a_id(i), mol_id(i), a_type(i), q(i), x(i), y(i), z(i)
     END DO
+
+    !Set the mass for each atom
+    do i = 1, n_atoms
+       M(i) = M_bytype(a_type(i))
+    enddo
+    deallocate(M_bytype)
+
     !Reads in the Bonds Section
     IF (n_bonds.ne.0) THEN
         read(ndata,*)
