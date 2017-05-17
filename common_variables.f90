@@ -37,8 +37,10 @@ Module constants
   Implicit none
 
   integer, parameter :: nxyz=20, nthermo=21, ndata=30, ninput=31, nrest=22
+  real(kind=dp) :: pi = 4.0_dp*atan(1.0_dp)
   real(kind=dp), parameter :: kb=0.0019872041_dp
 !  real(kind=dp), parameter :: mass_conv=2.390057361e-7_dp 
-  real(kind=dp), parameter :: mass_conv=4.184e-4_dp 
+  real(kind=dp), parameter :: mass_conv=1.0_dp/4.184e-4_dp 
+  real(kind=dp), parameter :: C_coul=2.40e-4_dp 
 
 end module

@@ -46,9 +46,7 @@ program classical_md
 
 ! set initial velocites if not a restart
 
-       write(6,*) ' restart = ',restart
        if (.not. restart) call initvel
-       write(6,*) vx(1), vy(1), vz(1)
 
 ! calculate force of initial configuration
 
@@ -68,14 +66,13 @@ program classical_md
 ! write out initial thermo properties
        
        call thermo_dump(0)
-       write(6,*) ' dt = ',dt
 
 !*****************************START MD SIMULATION***********************!
 
        write(*,*) "Beginning Molecular Dynamics!"
        do i = 1 , nstep
 
-            write(*,*) "Step: " , i 
+!            write(*,*) "Step: " , i 
 ! update positions in first stage of VV integrator
 
             call velocity_verlet

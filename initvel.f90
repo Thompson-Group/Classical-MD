@@ -8,7 +8,7 @@ subroutine initvel
        integer(kind = ip) :: clock(8),i
        integer :: n
        integer,allocatable,dimension(:) :: seed
-       real(kind = dp) :: RT,mtot,sx,sy,sz,num1,num2,r1,r2
+       real(kind = dp) :: RT,mtot,sx,sy,sz,num1,num2,r1,r2,ke
        real(kind = dp) :: rsq,fac,gset,gauss,vcm_x,vcm_y,vcm_z
 
        call random_seed(size = n)
@@ -75,7 +75,13 @@ subroutine initvel
        vx = vx - vcm_x
        vy = vy - vcm_y
        vz = vz - vcm_z
-       write(6,*) vx(1), vy(1), vz(1)
+
+       ke = 0.0_dp
+       do i = 1, n_atoms
+          ke = ke + M(i)*( vx(i)**2 + vy(i)**2 + vz(i)**2)
+       enddo
+       ke = ke*0.5_dp
+       write(6,*) 'initvel: T_inst = ',ke*2.0_dp/(3.0_dp*real(n_atoms-2)*kb)
       
        return
 

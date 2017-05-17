@@ -11,7 +11,7 @@ angle_coeffs
 1 55.0 109.47
 
 cutoff_distance
-12.0
+10.0
 
 coulomb_style
 0.2 sf
@@ -27,7 +27,7 @@ timestep
 1.0
 
 run
-1
+1000
 
 dump_freq
 1 1 1

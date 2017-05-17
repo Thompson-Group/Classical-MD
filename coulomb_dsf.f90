@@ -15,14 +15,13 @@
   Subroutine coulomb_dsf
 
   use common_variables
+  use constants
   implicit none
 
 !Working variables
   integer i, j
-  real(kind=dp), parameter :: C_coul = 332.0637301_dp
   real(kind=dp) :: rij, ftmp
   real(kind=dp) :: Cpref, pref, etmp, ecut, exptmp, expcut
-  real(kind=dp) :: pi = 4.0_dp*atan(1.0_dp)
 
 !External functions
   real(kind=dp), external :: erfc
