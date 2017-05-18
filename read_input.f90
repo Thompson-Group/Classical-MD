@@ -1,8 +1,8 @@
-subroutine read_input(input_filename,df_xyz,df_thermo,df_rest, nvt_type,fc_flag,nstep)
+subroutine read_input(input_filename,df_xyz,df_thermo,df_rest, fc_flag,nstep)
     use kinds
     use common_variables
     integer(kind=ip) :: i, j, ign_int,df_xyz, df_thermo, df_rest,nstep,done
-    character(len=50) :: data_filename,word,input_filename, run_style, nvt_type, coul_tmp
+    character(len=50) :: data_filename,word,input_filename, run_style, coul_tmp
     logical :: restart,fc_flag
     open(unit=ninput, file=input_filename)
      
@@ -61,7 +61,8 @@ subroutine read_input(input_filename,df_xyz,df_thermo,df_rest, nvt_type,fc_flag,
                 nvt_type='none'
             else if (run_style .eq. 'nvt') then
                 !If run_style is nvt, need to choose options: rescale or anderson 
-                read(ninput,*) nvt_type
+                read(ninput,*) nvt_type, nvt_freq
+                if(trim(nvt_type).eq.'andersen') read(ninput,*) nu
             else
                 write(*,*) "Error: Couldn't find the run_style in input file"
             endif 
