@@ -1,4 +1,4 @@
-subroutine boltz_vel(vxb,vyb,vzb)
+subroutine boltz_vel(vxb,vyb,vzb,mass)
 !************************************************************************
 !
 ! Subroutine for picking new atomic velocity from Boltzmann distribution
@@ -13,8 +13,9 @@ subroutine boltz_vel(vxb,vyb,vzb)
        integer(kind = ip) :: clock(8),i
        integer :: n
        integer,allocatable,dimension(:) :: seed
-       real(kind = dp) :: RT,mtot,sx,sy,sz,num1,num2,r1,r2
-       real(kind = dp) :: rsq,fac,gset,gauss,vxb,vyb,vzb
+       real(kind=dp) :: RT, mtot, sx, sy, sz, num1, num2, r1, r2
+       real(kind=dp) :: rsq, fac, gset, gauss
+       real(kind=dp) :: vxb, vyb, vzb, mass
 
        call random_seed(size = n)
        allocate(seed(n))
@@ -49,13 +50,11 @@ subroutine boltz_vel(vxb,vyb,vzb)
        gset = r1*fac
        gauss = r2*fac
 
-       vx(i) = gauss*sign(1d0,2d0*sx-1d0)*sqrt(RT/M(i))
-       vy(i) = gauss*sign(1d0,2d0*sy-1d0)*sqrt(RT/M(i))
-       vz(i) = gauss*sign(1d0,2d0*sz-1d0)*sqrt(RT/M(i))
+       vxb = gauss*sign(1.0_dp,2.0_dp*sx-1.0_dp)*sqrt(RT/mass)
+       vyb = gauss*sign(1.0_dp,2.0_dp*sy-1.0_dp)*sqrt(RT/mass)
+       vzb = gauss*sign(1.0_dp,2.0_dp*sz-1.0_dp)*sqrt(RT/mass)
 
-       return
-
-end subroutine boltz_vel
+     end subroutine boltz_vel
 
        
  
