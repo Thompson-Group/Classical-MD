@@ -24,7 +24,7 @@
   real(kind=dp) :: Cpref, pref, etmp, ecut, exptmp, expcut
 
 !External functions
-  real(kind=dp), external :: erfc
+! real(kind=dp), external :: erfc
 
 ! Loop over pairs of atoms
 
